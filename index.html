@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Achieve & Thrive — Document Intelligence</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230B1D3A'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='%23D4A843' font-family='serif' font-weight='bold'>AT</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0B1D3A;--navy-light:#132B52;--navy-mid:#1A3A6B;--blue:#2563EB;--blue-light:#3B82F6;--sky:#E8F0FE;--sky-deep:#DBEAFE;--gold:#D4A843;--gold-light:#F0D98D;--white:#fff;--off-white:#F8FAFC;--g50:#F9FAFB;--g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;--g400:#94A3B8;--g500:#64748B;--g600:#475569;--g700:#334155;--g800:#1E293B;--green:#059669;--green-lt:#D1FAE5;--red:#DC2626;--r:12px;--rs:8px;--rl:16px;--sh:0 4px 12px rgba(11,29,58,.08);--shL:0 12px 40px rgba(11,29,58,.12);--shXL:0 20px 60px rgba(11,29,58,.15)}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--off-white);color:var(--g800);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+.header{background:linear-gradient(135deg,var(--navy),var(--navy-light) 50%,var(--navy-mid));position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(11,29,58,.3)}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-brand{display:flex;align-items:center;gap:12px}
+.header-crest{width:40px;height:40px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--navy);font-family:'Source Serif 4',serif;flex-shrink:0}
+.header-title{font-family:'Source Serif 4',serif;font-size:18px;font-weight:600;color:#fff;line-height:1.2}
+.header-sub{font-size:10px;color:var(--gold-light);font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-top:1px}
+.settings-btn{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s}
+.settings-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.settings-btn.has-key{border-color:var(--gold);color:var(--gold)}
+
+.nav-bar{background:#fff;border-bottom:1px solid var(--g200);position:sticky;top:68px;z-index:99}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex}
+.nav-btn{flex:1;padding:12px 16px;border:none;background:0 0;color:var(--g500);font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;text-align:center;border-bottom:3px solid transparent;white-space:nowrap}
+.nav-btn:hover{color:var(--g700)}
+.nav-btn.active{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}
+
+.main{max-width:1200px;margin:0 auto;padding:20px}
+
+/* Modal */
+.modal-ov{position:fixed;inset:0;background:rgba(11,29,58,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border-radius:var(--rl);padding:28px;max-width:440px;width:100%;box-shadow:var(--shXL)}
+.modal h3{font-family:'Source Serif 4',serif;font-size:20px;color:var(--navy);margin-bottom:6px}
+.modal p{color:var(--g500);font-size:13px;margin-bottom:16px;line-height:1.6}
+.modal-input{width:100%;padding:12px 14px;border:2px solid var(--g200);border-radius:var(--rs);font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--g800);outline:none;margin-bottom:14px}
+.modal-input:focus{border-color:var(--blue)}
+.modal-input::placeholder{font-family:'DM Sans',sans-serif;color:var(--g400)}
+.modal-acts{display:flex;gap:10px}
+.mbtn{flex:1;padding:11px 16px;border-radius:var(--rs);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;border:none}
+.mbtn-p{background:var(--navy);color:#fff}.mbtn-p:hover{background:var(--navy-light)}
+.mbtn-s{background:var(--g100);color:var(--g600)}.mbtn-s:hover{background:var(--g200)}
+.mbtn-d{background:#FEE2E2;color:var(--red)}.mbtn-d:hover{background:#FECACA}
+.key-ok{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--green-lt);border-radius:var(--rs);margin-bottom:14px;font-size:13px;color:var(--green);font-weight:500}
+
+/* Search */
+.search-hero{text-align:center;padding:28px 0 16px}
+.search-hero h2{font-family:'Source Serif 4',serif;font-size:24px;font-weight:600;color:var(--navy);margin-bottom:4px;letter-spacing:-.3px;line-height:1.3}
+.search-hero p{color:var(--g500);font-size:14px}
+.stats-bar{display:flex;gap:20px;justify-content:center;padding:10px 0}
+.stat-v{font-size:22px;font-weight:700;color:var(--navy);font-family:'Source Serif 4',serif}
+.stat-l{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--g400);font-weight:600}
+
+.search-container{max-width:720px;margin:16px auto 0}
+.search-box{display:flex;align-items:center;background:#fff;border:2px solid var(--g200);border-radius:var(--r);padding:4px 4px 4px 16px;transition:.25s;box-shadow:var(--sh)}
+.search-box:focus-within{border-color:var(--blue);box-shadow:var(--shL),0 0 0 4px rgba(37,99,235,.1)}
+.si{color:var(--g400);flex-shrink:0;margin-right:10px}
+.search-input{flex:1;border:none;outline:none;font-size:16px;font-family:'DM Sans',sans-serif;color:var(--g800);padding:12px 0;background:0 0;min-width:0}
+.search-input::placeholder{color:var(--g400)}
+.search-go{padding:12px 20px;background:var(--navy);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0}
+.search-go:hover{background:var(--navy-light)}
+
+.filter-row{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.filter-row::-webkit-scrollbar{display:none}
+.fp{padding:6px 14px;border:1.5px solid var(--g200);background:#fff;color:var(--g600);font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;border-radius:20px;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0}
+.fp:hover{border-color:var(--blue-light);color:var(--blue)}
+.fp.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.sugg{max-width:720px;margin:24px auto 0}
+.sugg-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--g400);font-weight:600;margin-bottom:8px}
+.sugg-list{display:flex;flex-direction:column;gap:6px}
+.sugg-btn{text-align:left;padding:12px 14px;background:#fff;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:14px;color:var(--g700);font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;line-height:1.4;display:flex;align-items:center;gap:8px}
+.sugg-btn:hover{border-color:var(--blue);background:var(--sky);color:var(--navy)}
+.sugg-arrow{color:var(--g300);flex-shrink:0}
+.sugg-btn:hover .sugg-arrow{color:var(--blue)}
+
+/* Results */
+.results{margin-top:16px}
+.r-count{font-size:13px;color:var(--g500);font-weight:500;margin-bottom:10px}
+.r-count strong{color:var(--navy)}
+
+.r-card{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:18px;margin-bottom:8px;transition:.2s}
+.r-card:hover{box-shadow:var(--sh);border-color:var(--g300)}
+.r-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.r-badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.b-wp{background:#DBEAFE;color:#1E40AF}.b-send{background:#D1FAE5;color:#065F46}.b-comms{background:#FEF3C7;color:#92400E}.b-media{background:#F3E8FF;color:#6B21A8}.b-stk{background:#FFE4E6;color:#9F1239}
+.r-sec{font-size:12px;color:var(--g400);font-weight:500}
+.r-text{font-size:14px;line-height:1.7;color:var(--g700)}
+.r-text mark{background:var(--gold-light);color:var(--navy);padding:1px 3px;border-radius:3px;font-weight:500}
+.r-acts{margin-top:8px;display:flex;gap:6px}
+.abtn{padding:6px 12px;border:1.5px solid var(--g200);background:#fff;color:var(--g600);font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;border-radius:6px;cursor:pointer;transition:.15s}
+.abtn:hover{border-color:var(--blue);color:var(--blue);background:var(--sky)}
+.abtn.copied{border-color:var(--green);color:var(--green);background:var(--green-lt)}
+
+/* AI Answer */
+.ai-box{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:var(--rl);padding:22px;margin-bottom:14px;color:#fff;box-shadow:var(--shXL);position:relative;overflow:hidden}
+.ai-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,168,67,.15) 0%,transparent 70%);pointer-events:none}
+.ai-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:10px}
+.ai-text{font-size:15px;line-height:1.8;color:rgba(255,255,255,.95);font-family:'Source Serif 4',serif}
+.ai-text p{margin-bottom:8px}.ai-text p:last-child{margin-bottom:0}
+.ai-srcs{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.15);display:flex;flex-wrap:wrap;gap:5px}
+.ai-src{padding:3px 10px;background:rgba(255,255,255,.1);border-radius:4px;font-size:11px;color:rgba(255,255,255,.7);font-weight:500}
+.ai-load{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.7);font-size:14px}
+.dots{display:flex;gap:4px}.dots span{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:p 1.4s ease-in-out infinite}.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes p{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.ai-nokey{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--sky);border:1.5px solid var(--sky-deep);border-radius:var(--r);margin-bottom:14px;font-size:14px;color:var(--navy);flex-wrap:wrap}
+.ai-nokey button{padding:6px 14px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
+
+/* Comms */
+.comms{max-width:700px;margin:0 auto}
+.comms-intro{text-align:center;padding:28px 0 20px}
+.comms-intro h2{font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.comms-intro p{color:var(--g500);font-size:14px}
+.comms-form{background:#fff;border:1px solid var(--g200);border-radius:var(--rl);padding:22px;box-shadow:var(--sh)}
+.comms-form label{display:block;font-size:12px;font-weight:600;color:var(--g700);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.c-ta{width:100%;border:1.5px solid var(--g200);border-radius:var(--rs);padding:12px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--g800);resize:vertical;min-height:80px;outline:none;transition:.2s;margin-bottom:14px}
+.c-ta:focus{border-color:var(--blue)}
+.c-sel{width:100%;padding:11px 12px;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:15px;font-family:'DM Sans',sans-serif;color:var(--g800);background:#fff;outline:none;margin-bottom:14px;cursor:pointer;-webkit-appearance:none}
+.c-sel:focus{border-color:var(--blue)}
+.c-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.c-go{width:100%;padding:14px;background:var(--navy);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;margin-top:4px}
+.c-go:hover{background:var(--navy-light)}.c-go:disabled{opacity:.5;cursor:not-allowed}
+.c-out{margin-top:18px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:18px}
+.c-out-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.c-out-l{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--g400);font-weight:700}
+.c-out-t{font-size:14px;line-height:1.8;color:var(--g700);white-space:pre-wrap}
+
+/* Browse */
+.b-tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0;-webkit-overflow-scrolling:touch}
+.b-tabs::-webkit-scrollbar{display:none}
+.b-tab{padding:10px 16px;background:#fff;border:1.5px solid var(--g200);border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--g600);font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0}
+.b-tab:hover{border-color:var(--blue-light)}
+.b-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.b-content{background:#fff;border:1px solid var(--g200);border-radius:var(--rl);padding:22px}
+.b-content h3{font-family:'Source Serif 4',serif;font-size:18px;font-weight:600;color:var(--navy);margin:24px 0 8px;padding-top:16px;border-top:1px solid var(--g100)}
+.b-content h3:first-child{margin-top:0;padding-top:0;border-top:none}
+.b-content p{font-size:14px;line-height:1.8;color:var(--g700);margin-bottom:6px}
+
+@media(min-width:768px){.sugg-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}.main{padding:24px 32px}.header-inner{padding:16px 32px}}
+@media(max-width:640px){.c-row{grid-template-columns:1fr}.header-title{font-size:16px}}
+.fi{animation:fi .3s ease-out}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.2/babel.min.js"></script>
+<script type="text/babel">
+const{useState,useEffect,useRef,useMemo,useCallback}=React;
+const CHUNKS=(typeof DOCUMENT_CHUNKS!=='undefined')?DOCUMENT_CHUNKS:[];
+const DM={"White Paper":{b:"b-wp",s:"WP",l:"White Paper"},"SEND Consultation":{b:"b-send",s:"SEND",l:"SEND Consultation"},"SEND Comms Lines":{b:"b-comms",s:"Comms",l:"Comms Lines"},"Media Briefing Pack":{b:"b-media",s:"Media",l:"Media Briefing"},"Stakeholder Script":{b:"b-stk",s:"Script",l:"Stakeholder Script"}};
+const SUGG=["What is the Inclusion Premium and how will it work?","What are the key SEND reforms being proposed?","How will EHCPs change under the new system?","What support is there for mainstream schools?","What does the White Paper say about teacher training?","How will disadvantaged pupils be supported?","What is the Inclusive Mainstream Fund?","What changes are planned for special schools?"];
+
+const EMBEDDED_KEY='YOUR_API_KEY_HERE';
+const ACCESS_PWD='DfE2026';
+const getKey=()=>EMBEDDED_KEY;
+const isAuthed=()=>{try{return sessionStorage.getItem('at_auth')==='1'}catch{return false}};
+const setAuthed=()=>{try{sessionStorage.setItem('at_auth','1')}catch{}};
+
+function search(q,f="All"){
+  if(!q||q.trim().length<2)return[];
+  const ql=q.toLowerCase();
+  const sw=new Set(['what','how','does','the','is','are','will','be','a','an','in','on','for','to','of','and','or','it','this','that','with','has','have','do','about','from','by','at','as','was','were','been','not','but','they','their','them','can','would','should','could','which','who','where','when','why','there','also','more','some','than','its','into','over','after','our','we','new','all','under','these','those','many','much','very','just','being','most','any','each','my','your','tell','me','describe','explain']);
+  let ts=ql.replace(/[^\w\s]/g,' ').split(/\s+/).filter(t=>t.length>1&&!sw.has(t));
+  if(!ts.length)ts=ql.split(/\s+/).filter(t=>t.length>2);
+  if(!ts.length)return[];
+  let res=[];
+  for(const c of CHUNKS){
+    if(f!=="All"&&c.doc!==f)continue;
+    const tl=c.text.toLowerCase();
+    let sc=0;const mt=new Set();
+    for(const t of ts){const rx=new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');const m=tl.match(rx);if(m){sc+=m.length*2;mt.add(t);if(ts.length>1){const i=tl.indexOf(t);for(const o of ts)if(o!==t){const oi=tl.indexOf(o);if(oi!==-1&&Math.abs(i-oi)<100)sc+=3}}}}
+    if(c.section){const sl=c.section.toLowerCase();for(const t of ts)if(sl.includes(t))sc+=5}
+    if(tl.includes(ql))sc+=20;
+    sc+=mt.size*3;
+    if(sc>0)res.push({...c,score:sc,mt:[...mt]});
+  }
+  res.sort((a,b)=>b.score-a.score);
+  return res.slice(0,20);
+}
+
+function hl(text,terms){
+  if(!terms||!terms.length)return text;
+  const tl=text.toLowerCase();let bi=0;
+  for(const t of terms){const i=tl.indexOf(t);if(i!==-1){bi=i;break}}
+  const s=Math.max(0,bi-120),e=Math.min(text.length,bi+300);
+  let sn=text.slice(s,e);if(s>0)sn='…'+sn;if(e<text.length)sn+='…';
+  const esc=terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+  const rx=new RegExp(`(${esc.join('|')})`,'gi');
+  return sn.split(rx).map((p,i)=>terms.some(t=>p.toLowerCase()===t.toLowerCase())?<mark key={i}>{p}</mark>:p);
+}
+
+async function aiAsk(q,chunks,key){
+  const ctx=chunks.slice(0,8).map(c=>`[${c.doc}${c.section?' — '+c.section:''}]\n${c.text}`).join('\n\n---\n\n');
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1024,system:"You are an expert policy analyst for the Department for Education. Answer based strictly on the provided documents. Be accurate, concise, use plain English. Reference which document info comes from. Do not invent information.",messages:[{role:"user",content:`Documents:\n${ctx}\n\nQuestion: ${q}`}]})});
+  const d=await r.json();if(d.error)throw new Error(d.error.message);
+  return{text:d.content?.map(b=>b.text||'').join('')||'No answer.',sources:[...new Set(chunks.slice(0,8).map(c=>c.doc))]};
+}
+
+async function aiComms(topic,aud,tone,chunks,key){
+  const ctx=chunks.slice(0,6).map(c=>`[${c.doc}]\n${c.text}`).join('\n\n---\n\n');
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1024,system:"You are a senior government comms adviser at the DfE. Write precise, compelling comms lines in UK English based on official policy documents. Active voice, plain English.",messages:[{role:"user",content:`Documents:\n${ctx}\n\nTOPIC: ${topic}\nAUDIENCE: ${aud}\nTONE: ${tone}\n\nGenerate:\n1. Headline (1 sentence)\n2. Press paragraph (3-4 sentences)\n3. Two tweets (max 280 chars each)\n4. Three talking points`}]})});
+  const d=await r.json();if(d.error)throw new Error(d.error.message);
+  return d.content?.map(b=>b.text||'').join('')||'Error.';
+}
+
+const SI=()=><svg className="si" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>;
+const SP=()=><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>;
+const GR=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>;
+const AR=()=><svg className="sugg-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>;
+
+function PasswordGate({onAuth}){
+  const[pw,setPw]=useState('');const[err,setErr]=useState('');
+  const check=()=>{if(pw===ACCESS_PWD){setAuthed();onAuth()}else{setErr('Incorrect password');setPw('')}};
+  return(<div className="modal-ov"><div className="modal fi" style={{textAlign:'center'}}>
+    <div style={{width:56,height:56,background:'var(--navy)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,fontWeight:700,color:'var(--gold)',fontFamily:'Source Serif 4,serif',margin:'0 auto 20px'}}>DfE</div>
+    <h3 style={{fontFamily:'Source Serif 4,serif',fontSize:24,color:'var(--navy)',marginBottom:6}}>Achieve & Thrive</h3>
+    <p style={{color:'var(--g500)',fontSize:14,marginBottom:20}}>Schools White Paper & SEND Consultation<br/>Document Intelligence</p>
+    {err&&<div style={{color:'var(--red)',fontSize:13,fontWeight:500,marginBottom:10}}>{err}</div>}
+    <input className="modal-input" type="password" placeholder="Enter access password" value={pw} onChange={e=>{setPw(e.target.value);setErr('')}} onKeyDown={e=>{if(e.key==='Enter')check()}} style={{textAlign:'center',fontFamily:'DM Sans,sans-serif',marginBottom:14}}/>
+    <button className="mbtn mbtn-p" onClick={check} style={{width:'100%',padding:'14px',fontSize:15}}>Access</button>
+    <p style={{marginTop:16,fontSize:11,color:'var(--g400)',lineHeight:1.5}}>This is an internal DfE tool. Contact your team for access.</p>
+  </div></div>);
+}
+
+function Header({view,setView}){
+  return(<><header className="header"><div className="header-inner">
+    <div className="header-brand"><div className="header-crest">AT</div><div><div className="header-title">Achieve & Thrive</div><div className="header-sub">Document Intelligence</div></div></div>
+    <div style={{display:'flex',alignItems:'center',gap:8}}><div style={{width:8,height:8,borderRadius:'50%',background:'#4ADE80',boxShadow:'0 0 8px rgba(74,222,128,.5)'}} title="AI connected"/></div>
+  </div></header>
+  <nav className="nav-bar"><div className="nav-inner">
+    <button className={`nav-btn ${view==='search'?'active':''}`} onClick={()=>setView('search')}>Search & Ask</button>
+    <button className={`nav-btn ${view==='comms'?'active':''}`} onClick={()=>setView('comms')}>Comms</button>
+    <button className={`nav-btn ${view==='browse'?'active':''}`} onClick={()=>setView('browse')}>Browse</button>
+  </div></nav></>);
+}
+
+function AIBox({ans,loading}){
+  if(!loading&&!ans)return null;
+  if(!loading&&!ans)return null;
+  return(<div className="ai-box fi"><div className="ai-label"><SP/> AI Answer</div>
+    {loading?<div className="ai-load"><div className="dots"><span/><span/><span/></div>Analysing documents…</div>
+    :ans.error?<div style={{color:'rgba(255,255,255,.7)',fontSize:14}}>{ans.error}</div>
+    :<><div className="ai-text">{ans.text.split('\n').filter(p=>p.trim()).map((p,i)=><p key={i}>{p}</p>)}</div>
+    {ans.sources?.length>0&&<div className="ai-srcs">{ans.sources.map((s,i)=><span key={i} className="ai-src">{s}</span>)}</div>}</>}
+  </div>);
+}
+
+function RCard({r}){
+  const[cp,setCp]=useState(false);const m=DM[r.doc]||{};
+  const copy=()=>{navigator.clipboard?.writeText(r.text);setCp(true);setTimeout(()=>setCp(false),1500)};
+  return(<div className="r-card fi">
+    <div className="r-meta"><span className={`r-badge ${m.b}`}>{m.s||r.doc}</span>{r.section&&<span className="r-sec">{r.section}</span>}</div>
+    <div className="r-text">{hl(r.text,r.mt)}</div>
+    <div className="r-acts"><button className={`abtn ${cp?'copied':''}`} onClick={copy}>{cp?'✓ Copied':'Copy'}</button></div>
+  </div>);
+}
+
+function SearchView(){
+  const[q,setQ]=useState('');const[f,setF]=useState('All');const[res,setRes]=useState([]);
+  const[ai,setAi]=useState(null);const[aiL,setAiL]=useState(false);const[done,setDone]=useState(false);
+  const key=getKey();
+  const go=useCallback(async(sq)=>{
+    const v=sq||q;if(!v.trim())return;
+    setDone(true);const sr=search(v,f);setRes(sr);
+    if(key){setAiL(true);setAi(null);try{setAi(await aiAsk(v,sr.length?sr:CHUNKS.slice(0,10),key))}catch(e){setAi({error:'Error: '+e.message,sources:[]})}setAiL(false)}
+  },[q,f,key]);
+  const sub=e=>{e?.preventDefault();go()};
+  const dns=["All",...Object.keys(DM)];
+  return(<div>
+    <div className="search-hero">
+      <h2>Search the White Paper & SEND Documents</h2>
+      <p>Ask a question in plain English or search any topic</p>
+      <div className="stats-bar"><div style={{textAlign:'center'}}><div className="stat-v">5</div><div className="stat-l">Documents</div></div><div style={{textAlign:'center'}}><div className="stat-v">128k</div><div className="stat-l">Words</div></div><div style={{textAlign:'center'}}><div className="stat-v">407</div><div className="stat-l">Passages</div></div></div>
+    </div>
+    <div className="search-container">
+      <form className="search-box" onSubmit={sub}><SI/><input className="search-input" type="text" placeholder="e.g. 'How will the Inclusion Premium work?'" value={q} onChange={e=>setQ(e.target.value)}/><button type="submit" className="search-go">Search</button></form>
+      <div className="filter-row">{dns.map(d=><button key={d} className={`fp ${f===d?'active':''}`} onClick={()=>setF(d)}>{d==='All'?'All':(DM[d]?.s||d)}</button>)}</div>
+    </div>
+    {!done&&<div className="sugg fi"><div className="sugg-label">Try asking</div><div className="sugg-list">{SUGG.map((s,i)=><button key={i} className="sugg-btn" onClick={()=>{setQ(s);go(s)}}><span style={{flex:1}}>{s}</span><AR/></button>)}</div></div>}
+    {done&&<div className="results fi">
+      <AIBox ans={ai} loading={aiL}/>
+      <div className="r-count"><strong>{res.length}</strong> matching passages{f!=='All'?` in ${DM[f]?.l}`:''}</div>
+      {res.map((r,i)=><RCard key={r.id+'-'+i} r={r}/>)}
+      {!res.length&&!aiL&&<div style={{textAlign:'center',padding:'28px 0',color:'var(--g400)',fontSize:14}}>No exact matches.{key?' See AI answer above.':' Add API key for AI answers.'}</div>}
+    </div>}
+  </div>);
+}
+
+function CommsView(){
+  const[topic,setT]=useState('');const[aud,setA]=useState('General public');const[tone,setTo]=useState('Authoritative and reassuring');
+  const[out,setO]=useState('');const[loading,setL]=useState(false);const[cp,setCp]=useState(false);const[err,setE]=useState('');
+  const key=getKey();
+  const gen=async()=>{if(!topic.trim()||!key)return;setL(true);setO('');setE('');try{const ctx=search(topic,'All');setO(await aiComms(topic,aud,tone,ctx.length?ctx:CHUNKS.slice(0,8),key))}catch(e){setE('Error: '+e.message)}setL(false)};
+  const copy=()=>{navigator.clipboard?.writeText(out);setCp(true);setTimeout(()=>setCp(false),1500)};
+  return(<div className="comms">
+    <div className="comms-intro"><h2>Communications Lines Generator</h2><p>Generate press lines, social posts and talking points</p></div>
+    <div className="comms-form">
+      <label>Topic or policy area</label>
+      <textarea className="c-ta" placeholder="e.g. 'SEND reform and the Inclusion Premium'" value={topic} onChange={e=>setT(e.target.value)}/>
+      <div className="c-row"><div><label>Audience</label><select className="c-sel" value={aud} onChange={e=>setA(e.target.value)}><option>General public</option><option>Parents and families</option><option>School leaders and teachers</option><option>Local authorities</option><option>SEND sector specialists</option><option>Media and journalists</option><option>Parliamentarians</option></select></div>
+      <div><label>Tone</label><select className="c-sel" value={tone} onChange={e=>setTo(e.target.value)}><option>Authoritative and reassuring</option><option>Urgent and reforming</option><option>Warm and empathetic</option><option>Technical and precise</option><option>Bold and ambitious</option></select></div></div>
+      <button className="c-go" onClick={gen} disabled={loading||!topic.trim()}>{loading?'Generating…':'Generate Communications Lines'}</button>
+    </div>
+    {err&&<div style={{marginTop:14,padding:14,background:'#FEE2E2',borderRadius:8,color:'var(--red)',fontSize:14}}>{err}</div>}
+    {(out||loading)&&<div className="c-out fi"><div className="c-out-h"><span className="c-out-l">Generated Lines</span>{out&&<button className={`abtn ${cp?'copied':''}`} onClick={copy}>{cp?'✓ Copied':'Copy all'}</button>}</div>
+    {loading?<div className="ai-load" style={{color:'var(--g500)'}}><div className="dots"><span style={{background:'var(--navy)'}}/><span style={{background:'var(--navy)'}}/><span style={{background:'var(--navy)'}}/></div>Generating…</div>
+    :<div className="c-out-t">{out}</div>}</div>}
+  </div>);
+}
+
+function BrowseView(){
+  const[doc,setDoc]=useState('White Paper');
+  const chunks=useMemo(()=>CHUNKS.filter(c=>c.doc===doc),[doc]);
+  const secs=useMemo(()=>{const g={};for(const c of chunks){const s=c.section||'Content';if(!g[s])g[s]=[];g[s].push(c)}return g},[chunks]);
+  return(<div>
+    <div className="b-tabs">{Object.keys(DM).map(n=><button key={n} className={`b-tab ${doc===n?'active':''}`} onClick={()=>setDoc(n)}>{DM[n]?.s||n}</button>)}</div>
+    <div className="b-content">{Object.entries(secs).map(([s,cs])=><div key={s}><h3>{s||'Content'}</h3>{cs.map((c,i)=><p key={i}>{c.text}</p>)}</div>)}</div>
+  </div>);
+}
+
+function App(){
+  const[authed,setA]=useState(isAuthed());
+  const[view,setV]=useState('search');
+  if(!authed)return<PasswordGate onAuth={()=>setA(true)}/>;
+  return(<><Header view={view} setView={setV}/>
+    <main className="main">
+      {view==='search'&&<SearchView/>}
+      {view==='comms'&&<CommsView/>}
+      {view==='browse'&&<BrowseView/>}
+    </main>
+  </>);
+}
+ReactDOM.createRoot(document.getElementById('app')).render(<App/>);
+</script>
+</body>
+</html>
